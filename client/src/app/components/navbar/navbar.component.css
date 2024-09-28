@@ -1,0 +1,10 @@
+mat-toolbar{
+    background: white;
+    box-shadow: 0 1px 3px 1px rgb(0 0 0 / .1);
+    padding: 10px 50px;
+}
+
+a.mdc-button:hover{
+    background: var(--crystal-blue-color);
+    color: white;
+}

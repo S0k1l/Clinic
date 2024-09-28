@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root{
+    --crystal-blue-color: #60b3b1;
+}
+
+
+
