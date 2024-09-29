@@ -1,0 +1,40 @@
+<div class="h-full flex justify-center">
+    <div class="h-full w-4/5 flex items-center gap-10 py-12 flex-col">
+        <div class="">
+            <span class="text-2xl font-light">ПОШУК ЛІКАРІВ</span>
+        </div>
+        <div class="w-full flex flex-col gap-10 items-center justify-center">
+            <div class="bg-gray-300 p-5 w-fit text-base rounded-xl flex flex-wrap gap-5" >
+                <mat-form-field class="my-form-field w-96">
+                    <input class="my-input" matInput placeholder="Введіть ПІБ лікаря">
+                    <button mat-icon-button matSuffix class="my-button">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </mat-form-field>
+                <mat-form-field class="my-form-field">
+                    <mat-select [(value)]="selected">
+                        <mat-option class="my-option" value="all">all</mat-option>
+                        <mat-option value="food.value">food.viewValue</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="w-full  grid grid-cols-3 gap-4">
+                @for (item of doctors; track $index) {
+                    <div class="bg-white rounded-xl flex flex-row gap-5  h-full p-5 my-border">
+                        <div class="h-full w-2/5 flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Valeriy_Konovalyuk_3x4.jpg" class="h-fit rounded-lg" alt="">
+                        </div>
+                        <div class="flex flex-col w-3/5 gap-2 text-slate-700">
+                            <a routerLink="/doctor/1"><span class="text-lg font-medium">Боржієвський Олександр Анатолійович</span></a>
+                            <span><i>Сімейний лікар</i></span>
+                            <div class="h-full"></div>
+                            <div class="w-full flex justify-center pb-3">
+                                <button mat-flat-button class="w-fit">Записятися</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

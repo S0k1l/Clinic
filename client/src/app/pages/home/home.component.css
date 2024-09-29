@@ -1,0 +1,72 @@
+:host {
+    --mat-form-field-container-vertical-padding: 0px;
+    --mat-form-field-filled-with-label-container-padding-top: 0px;
+    --mat-form-field-container-height: 0px;
+    --mat-form-field-state-layer-color: rgb(252,252,252);
+    --mdc-filled-text-field-focus-active-indicator-color: var( --crystal-blue-color);
+    --mat-form-field-filled-with-label-container-padding-bottom: 0px;
+    --mat-select-focused-arrow-color: var( --crystal-blue-color);
+}
+
+.my-border{
+    border: 1px solid #d1d5db;
+}
+
+.my-button:hover{
+    background-color: var( --crystal-blue-color);
+    color: white;
+}
+
+::ng-deep .mat-mdc-unelevated-button:not(:disabled){
+    background-color: var(--crystal-blue-color);
+}
+
+/*===------ MY-FORM-FIELD ------=== */
+
+.my-form-field{
+    height: 50px;
+}
+
+::ng-deep .my-form-field .mat-mdc-form-field-flex {
+    height: 100%;
+}
+
+::ng-deep .my-form-field .mat-mdc-form-field-icon-suffix{
+    padding: 0 4px;
+}
+
+::ng-deep .my-form-field .mat-mdc-form-field-subscript-wrapper {
+    height: 0;
+}
+
+::ng-deep .my-form-field .mat-mdc-form-field-infix {
+    display: flex;
+    height: 100%;
+}
+
+::ng-deep .my-form-field .mdc-text-field--filled{
+    background: var(--mat-form-field-state-layer-color) !important;
+}
+
+::ng-deep .my-form-field .mat-mdc-select{
+    display: flex;
+    height: 100%;
+}
+
+/*===------ MAT-OPTION ------=== */
+
+::ng-deep mat-option.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple){
+    background-color: transparent;
+}
+
+::ng-deep mat-option.mat-mdc-option:hover:not(.mdc-list-item--disabled), mat-option.mat-mdc-option.mdc-list-item--selected:hover:not(.mdc-list-item--disabled){
+    color: white !important;
+    background-color: var( --crystal-blue-color);
+}
+
+::ng-deep mat-option.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text{
+    color: inherit !important;
+}
+::ng-deep mat-option.mat-mdc-option .mat-pseudo-checkbox{
+    --mat-minimal-pseudo-checkbox-selected-checkmark-color: none;
+}
