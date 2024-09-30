@@ -12,4 +12,8 @@ export const routes: Routes = [
         path: 'doctor/:id',
         component: DoctorComponent,
     },
+    {
+        path: 'doctor/:id/appointments',
+        component: AppointmentsComponent,
+    }
 ];

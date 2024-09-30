@@ -1,0 +1,34 @@
+::ng-deep mat-card{
+    background-color: white !important;
+}
+
+::ng-deep mat-card .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical){
+    border-color: var(--crystal-blue-color) !important;
+}
+
+::ng-deep mat-card .mat-calendar-body-selected{
+    box-shadow: inset 0 0 0 1px var(--crystal-blue-color) !important;
+    background-color: var(--crystal-blue-color) !important;
+}
+
+.my-border{
+    box-shadow: var(--mdc-elevated-card-container-elevation);
+}
+
+.my-bg{
+    background: var(--crystal-blue-color);
+}
+
+::ng-deep button.mat-mdc-outlined-button{
+    border-radius: 8px !important;
+}
+
+::ng-deep .mat-mdc-outlined-button:not(:disabled){
+    border-color: var(--crystal-blue-color) !important;
+    color: #334155 ;
+}
+
+::ng-deep .mat-mdc-outlined-button:hover:not(:disabled){
+    background-color: var(--crystal-blue-color);
+    color: white ;
+}
