@@ -1,0 +1,27 @@
+::ng-deep .my-flat-button.mat-mdc-unelevated-button:not(:disabled){
+    padding: 0 10px;
+    background-color: var(--crystal-blue-color);
+}
+
+
+.my-outline-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border: 2px solid #334155;
+    color: #334155;
+    height: var(--mdc-outlined-button-container-height);
+    border-radius: var(--mdc-outlined-button-container-shape, var(--mat-app-corner-full));
+    font-family: var(--mdc-outlined-button-label-text-font, var(--mat-app-label-large-font));
+    font-size: var(--mdc-outlined-button-label-text-size, var(--mat-app-label-large-size));
+    letter-spacing: var(--mdc-outlined-button-label-text-tracking, var(--mat-app-label-large-tracking));
+    font-weight: var(--mdc-outlined-button-label-text-weight, var(--mat-app-label-large-weight));
+    transition: 0.05s ease-in-out;
+}
+
+.my-outline-button:hover{
+    color: white;
+    background-color: var(--crystal-blue-color);
+    border-color: var(--crystal-blue-color);
+}

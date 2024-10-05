@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>Лікування</h2>
+<mat-dialog-content>
+    <div class="flex flex-col items-center gap-3 justify-center">
+
+        <div class="flex flex-row gap-3 w-full p-2 items-center justify-center my-div rounded-xl" *ngFor="let treatment of treatments; let i = index">
+            
+            <mat-form-field class="w-3/5">
+                <input matInput [(ngModel)]="treatment.treatment" placeholder="Введіть ПІБ лікаря">
+            </mat-form-field>
+        
+            <mat-form-field class="w-2/5">
+                <mat-label>Період вживання</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate [(ngModel)]="treatment.start" placeholder="Start date">
+                  <input matEndDate [(ngModel)]="treatment.end" placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+
+            <button mat-icon-button (click)="remove(i)" class="bg-sl my-button">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+        <button class="rounded-full bg-blue-700 hover:bg-blue-600 text-white py-2 px-4 transition" (click)="add()">Додати</button>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+
+    <div class="w-full flex justify-between flex-row px-1">
+        <button mat-button (click)="onClear()">Очистити дані</button>
+        <div>
+            <button mat-button (click)="onCancel()">Скасувати</button>
+            <button mat-button (click)="onSubmit()">Підтвердити</button>
+        </div>
+    </div>
+
+</mat-dialog-actions>

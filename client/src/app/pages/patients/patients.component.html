@@ -1,0 +1,52 @@
+<div class="h-full flex justify-center">
+    <div class="h-full w-4/5 flex items-center gap-10 py-12 flex-col">
+        <div class="">
+            <span class="text-2xl font-light uppercase">Список паціентів</span>
+        </div>
+        <div class="bg-gray-300 w-3/4 p-5 text-base rounded-xl flex flex-col gap-2 min-w-620px">
+            <mat-accordion class="w-full" *ngFor="let panel of panels; let i = index">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+
+                        <mat-panel-title>
+                            {{panel.time}}
+                        </mat-panel-title>
+
+                        <mat-panel-description>
+                            <span class="w-full">{{panel.name}}</span>
+                            <div class="w-full"></div>
+                            <span>Завершився</span>
+                        </mat-panel-description>
+
+                    </mat-expansion-panel-header>
+
+                    <div class="flex flex-col gap-5 pt-1">
+                        <mat-divider ></mat-divider>
+
+                        <div class="flex flex-row gap-3">
+                            <div class="flex flex-col w-1/4">
+                                <button class="my-outline-button" (click)="setDiagnose()">Поставити діагноз</button>
+                            </div>
+    
+                            <div class="flex flex-col w-1/4">
+                                <button class="my-outline-button" (click)="setTreatment()">Призначити лікування</button>
+                            </div>
+    
+                            <div class="flex flex-col w-1/4">
+                                <button class="my-outline-button" (click)="setAppointment()">Надати направлення</button>
+                            </div>
+    
+                            <div class="flex flex-col w-1/4">
+                                <button mat-flat-button class="my-flat-button" disableRipple="">Завершити огляд</button>
+                            </div>
+                        </div>
+    
+                    </div>
+
+                    
+                </mat-expansion-panel>
+            </mat-accordion>
+
+        </div>
+    </div>
+</div>
