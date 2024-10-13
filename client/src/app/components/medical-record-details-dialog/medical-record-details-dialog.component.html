@@ -1,0 +1,32 @@
+<h2 mat-dialog-title class="text-gray-900">Історія хвороби №{{data?.id}}</h2>
+<mat-dialog-content>
+    <div class="flex flex-col gap-3">
+        <span class="">Доктор: {{data?.doctor}}</span>
+        <span>Дата: {{data?.date?.toLocaleDateString()}}</span>
+        <span>Діагноз: {{data?.diagnose ? data?.diagnose : 'Немає'}}</span>
+        @if (data?.treatment) {
+            <span>Лікування:</span>
+                <table>
+                    <tr *ngFor="let item of data?.treatment">
+                        <th class="w-3/5">
+                            <span class="!px-5">{{item.treatment}}</span>    
+                        </th>
+                        <th class="w-1/5">
+                            <span>з: {{item.start?.toLocaleDateString()}}</span>
+                        </th>
+                        <th class="w-1/5">
+                            <span>до: {{item.end?.toLocaleDateString()}}</span>
+                        </th>
+                    </tr>
+                </table>
+        }
+        @else {
+            <span>Лікування: Непотрібне</span>
+        }
+
+
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+            <button mat-button (click)="onExit()">Закрити</button>
+</mat-dialog-actions>

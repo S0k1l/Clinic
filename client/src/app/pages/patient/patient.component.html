@@ -1,0 +1,174 @@
+<mat-tab-group animationDuration="200ms">
+    <mat-tab label="Картка пацієнта"> 
+        <div class="h-full flex justify-center">
+            <div class="h-full w-4/5 flex items-center gap-10 py-12 flex-col">
+                <div class="">
+                    <span class="text-2xl font-light uppercase">Картка пацієнта</span>
+                </div>
+                <div class="bg-gray-300 w-3/4 p-5 text-base rounded-xl flex flex-col gap-5 min-w-620px">
+
+                    <div class="flex flex-col p-5 w-full rounded-xl bg-white gap-7">
+                        <div class="w-full flex items-center justify-center">
+                            <span class="text-xl font-light uppercase">Прізвище Ім'я По батькові </span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-x-4 gap-y-10">
+                            <mat-form-field>
+                                <mat-label>Прізвище</mat-label>
+                                <input matInput [value]="user.lastName" [disabled]="true">
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Ім'я</mat-label>
+                                <input matInput [value]="user.firstName" [disabled]="true">
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>По батькові</mat-label>
+                                <input matInput [value]="user.middleName" [disabled]="true">
+                            </mat-form-field>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="w-full flex items-center justify-center">
+                            <span class="text-xl font-light uppercase">Контакти </span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-x-4 gap-y-10">
+                            <mat-form-field>
+                                <mat-label>Email</mat-label>
+                                <input matInput [value]="user.email" [disabled]="true">
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Номер телефону </mat-label>
+                                <input matInput [value]="user.phoneNumber" [disabled]="true">
+                            </mat-form-field>
+
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="w-full flex items-center justify-center">
+                            <span class="text-xl font-light uppercase">Медична інформація </span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-x-4 gap-y-10">
+                            <mat-form-field>
+                                <mat-label>Стать </mat-label>
+                                <input matInput [value]="user.gender" [disabled]="true">
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Дата народження </mat-label>
+                                <input matInput [value]="user.birthDay" [disabled]="true">
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Група крові </mat-label>
+                                <input matInput [value]="user.bloodType" [disabled]="true">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Лікування"> 
+        <div class="h-full flex justify-center">
+            <div class="h-full w-4/5 flex items-center gap-10 py-12 flex-col">
+                <div class="">
+                    <span class="text-2xl font-light uppercase">Картка пацієнта</span>
+                </div>
+                <div class="bg-gray-300 w-3/4 p-5 text-base rounded-xl flex flex-col gap-5 min-w-620px">
+
+                    <div class="flex flex-col p-5 w-full rounded-xl bg-white gap-7">
+                        <div class="w-full flex items-center justify-center">
+                            <span class="text-xl font-light uppercase">Лікування </span>
+                        </div>
+                        <table>
+                            <tr *ngFor="let item of activeTreatments">
+                                <th class="w-3/5">
+                                    <span class="!px-5">{{item.treatment}}</span>    
+                                </th>
+                                <th class="w-1/5">
+                                    <span>з: {{item.start?.toLocaleDateString()}}</span>
+                                </th>
+                                <th class="w-1/5">
+                                    <span>до: {{item.end?.toLocaleDateString()}}</span>
+                                </th>
+                            </tr>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Історія хвороб"> 
+        <div class="h-full flex justify-center">
+            <div class="h-full w-4/5 flex items-center gap-10 py-12 flex-col">
+                <div class="">
+                    <span class="text-2xl font-light uppercase">Картка пацієнта</span>
+                </div>
+                <div class="bg-gray-300 w-3/4 p-5 text-base rounded-xl flex flex-col gap-5 min-w-620px">       
+                    <div class="w-full rounded-xl bg-white">
+                        <div class="w-full flex items-center justify-center pt-5 pb-2">
+                            <span class="text-xl font-light uppercase">Історія хвороб </span>
+                        </div>
+                        <div class="flex p-5 w-full gap-5 justify-center items-center">
+                            <mat-form-field class="w-4/6">
+                                <mat-label>Фільтр</mat-label>
+                                <input matInput [(ngModel)]="filter" placeholder="Ex. Mia">
+                            </mat-form-field>
+                            <mat-form-field class="w-2/6">
+                                <mat-label>Сортувати за датою</mat-label>
+                                <mat-date-range-input [rangePicker]="picker">
+                                  <input matStartDate [(ngModel)]="dateStart" readonly placeholder="Start date">
+                                  <input matEndDate [(ngModel)]="dateEnd" readonly placeholder="End date">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="flex pb-5 w-full gap-5 justify-center items-center">
+                            <button mat-flat-button (click)="applyFilter()">Пошук</button>
+                            <button class="my-outline-button" (click)="removeFilter()">Очистити фільтр</button>
+                        </div>
+        
+                        <div class="mb-5 mx-5 my-border rounded-xl">
+                            <table mat-table [dataSource]="dataSource" matSort>
+        
+                                <ng-container matColumnDef="date">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.date.toLocaleDateString()}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="doctor">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Doctor </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.doctor}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="diagnose">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Diagnose </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.diagnose}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="treatment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Treatment </th>
+                                    <td mat-cell *matCellDef="let row"> {{!row.treatment ? '' :  row.treatment[0].treatment }} </td>
+                                </ng-container>
+        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="qwe(row.id)" class="cursor-pointer hover:bg-gray-100"></tr>
+        
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell p-5 " colspan="4">Немає даних, що відповідають фільтру.</td>
+                                </tr>
+                            </table>
+        
+                            <mat-paginator [pageSizeOptions]="[10, 25, 50]"
+                                aria-label="Select page of users"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+
+</mat-tab-group>
