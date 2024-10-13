@@ -1,0 +1,55 @@
+<div class="h-full flex justify-center">
+    <div class="h-full w-4/5 flex items-center gap-10 py-12 flex-col">
+        <div class="">
+            <span class="text-2xl font-light uppercase">Вхід</span>
+        </div>
+        <div class="bg-gray-300 w-2/6 p-5 text-base rounded-xl flex flex-col gap-5 min-w-620px">
+
+            <form class="flex flex-col p-5 w-full rounded-xl bg-white gap-7" [formGroup]="form" (ngSubmit)="login()">
+                <div class="w-full flex items-center justify-center">
+                    <span class="text-xl font-light uppercase">Заповніть всі поля </span>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <mat-form-field apperance="fill" class="w-full">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" placeholder="email"/>
+                        <mat-error *ngIf="form.get('email')?.hasError('required')">
+                            Заповніть це поле
+                        </mat-error>
+                        <mat-error *ngIf="!form.get('email')?.hasError('required') && form.get('email')?.errors?.['email']">
+                            Невірно введений email.
+                        </mat-error>
+                        <mat-icon matPrefix>email</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Пароль</mat-label>
+                        <input matInput type="{{ hide ? 'password' : 'text'}}" formControlName="password"/>
+                        <mat-error *ngIf="form.get('password')?.hasError('required')">
+                            Заповніть це поле
+                        </mat-error>
+                        <mat-error *ngIf="!form.get('password')?.hasError('required') && form.get('password')?.hasError('minlength')">
+                            Пароль має бути не менше 6 символів
+                        </mat-error>
+                        <mat-error *ngIf="!form.get('password')?.hasError('required') && !form.get('password')?.hasError('minlength') && form.get('password')?.hasError('uppercase')">
+                            Пароль має містити принаймні одну велику літеру
+                        </mat-error>
+                        <mat-error *ngIf="!form.get('password')?.hasError('required') && !form.get('password')?.hasError('minlength') && !form.get('password')?.hasError('uppercase') && form.get('password')?.hasError('specialChar')">
+                            Пароль повинен містити хоча б один спеціальний символ
+                        </mat-error>
+                        <mat-icon matPrefix>lock</mat-icon>
+                        <mat-icon (click)="hide = !hide" matSuffix>
+                            {{ hide ? 'visibility_off':'visibility'}}
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <button mat-flat-button type="submit" [disabled]="!form.valid">
+                        Увійти
+                    </button>
+
+                    <a routerLink="/register">Не маєте акаунта? Тоді зареєструйтеся.</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
