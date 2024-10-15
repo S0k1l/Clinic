@@ -1,0 +1,160 @@
+<div class="h-full flex justify-center">
+    <div class="h-full w-4/5 flex items-center gap-10 py-12 flex-col">
+        <div class="">
+            <span class="text-2xl font-light uppercase">Реєстрація</span>
+        </div>
+        <div class="bg-gray-300 my-width p-5 text-base rounded-xl flex flex-col gap-5 min-w-620px">
+            <div class="flex flex-col p-5 w-full rounded-xl bg-white gap-7">
+                <mat-stepper orientation="vertical" [linear]="true" #stepper>
+                    <mat-step [stepControl]="registrationData">
+                        <form [formGroup]="registrationData">
+                            <ng-template matStepLabel>Дані для реєстрації</ng-template>
+                            <mat-form-field>
+                                <mat-label>Email</mat-label>
+                                <input matInput formControlName="email" />
+                                <mat-error *ngIf="registrationData.get('email')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="!registrationData.get('email')?.hasError('required') && registrationData.get('email')?.errors?.['email']">
+                                    Невірно введений email.
+                                </mat-error>
+                                <mat-icon matPrefix>email</mat-icon>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Пароль</mat-label>
+                                <input matInput type="{{ hide ? 'password' : 'text'}}" formControlName="password" />
+                                <mat-error *ngIf="registrationData.get('password')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="!registrationData.get('password')?.hasError('required') && registrationData.get('password')?.hasError('minlength')">
+                                    Пароль має бути не менше 6 символів
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="!registrationData.get('password')?.hasError('required') && !registrationData.get('password')?.hasError('minlength') && registrationData.get('password')?.hasError('uppercase')">
+                                    Пароль має містити принаймні одну велику літеру
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="!registrationData.get('password')?.hasError('required') && !registrationData.get('password')?.hasError('minlength') && !registrationData.get('password')?.hasError('uppercase') && registrationData.get('password')?.hasError('specialChar')">
+                                    Пароль повинен містити хоча б один спеціальний символ
+                                </mat-error>
+                                <mat-icon matPrefix>lock</mat-icon>
+                                <mat-icon (click)="hide = !hide" matSuffix>
+                                    {{ hide ? 'visibility_off':'visibility'}}
+                                </mat-icon>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Повторіть пароль</mat-label>
+                                <input matInput type="{{ hide ? 'password' : 'text'}}" formControlName="confirmPassword"
+                                    pattern="{{registrationData.value.password}}">
+                                <mat-error *ngIf="registrationData.get('confirmPassword')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="registrationData.value.confirmPassword && !registrationData.get('confirmPassword')?.hasError('required')">
+                                    Паролі не співпадають
+                                </mat-error>
+                                <mat-icon matPrefix>lock</mat-icon>
+                                <mat-icon (click)="hide = !hide" matSuffix>
+                                    {{ hide ? 'visibility_off':'visibility'}}
+                                </mat-icon>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button matStepperNext>Далі</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="personalData">
+                        <form [formGroup]="personalData">
+                            <ng-template matStepLabel>Персональні дані</ng-template>
+                            <mat-form-field>
+                                <mat-label>Прізвище</mat-label>
+                                <input matInput formControlName="lastName">
+                                <mat-error *ngIf="personalData.get('lastName')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Ім'я</mat-label>
+                                <input matInput formControlName="firstName">
+                                <mat-error *ngIf="personalData.get('firstName')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>По батькові</mat-label>
+                                <input matInput formControlName="middleName">
+                                <mat-error *ngIf="personalData.get('middleName')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field floatLabel="always">
+                                <mat-label>Номер телефону</mat-label>
+                                <input matInput formControlName="phoneNumber" minlength="9" maxlength="9">
+                                <span matTextPrefix>+380 &nbsp;</span>
+                                <mat-error *ngIf="personalData.get('phoneNumber')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="!personalData.get('phoneNumber')?.hasError('required') && personalData.get('phoneNumber')?.invalid">
+                                    Невірно введений номер телефону
+                                </mat-error>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button matStepperPrevious>Назад</button>
+                                <button mat-button matStepperNext>Далі</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="medicalData">
+                        <form [formGroup]="medicalData">
+                            <ng-template matStepLabel>Медичні дані</ng-template>
+                            <mat-form-field>
+                                <mat-label>Дата народження</mat-label>
+                                <input matInput [matDatepicker]="dp" formControlName="bDay" readonly>
+                                <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+                                <mat-datepicker #dp></mat-datepicker>
+                                <mat-error *ngIf="medicalData.get('bDay')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Стать</mat-label>
+                                <mat-select matInput formControlName="sex">
+                                    <mat-option value="male">Чоловік</mat-option>
+                                    <mat-option value="female">Жінка</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="medicalData.get('sex')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Група крові</mat-label>
+                                <mat-select formControlName="bloodType">
+                                    <mat-option value="O(I) Rh+">O(I) Rh+</mat-option>
+                                    <mat-option value="O(I) Rh-">O(I) Rh-</mat-option>
+                                    <mat-option value="A(II) Rh+">A(II) Rh+</mat-option>
+                                    <mat-option value="A(II) Rh-">A(II) Rh-</mat-option>
+                                    <mat-option value="B(III) Rh+">B(III) Rh+</mat-option>
+                                    <mat-option value="B(III) Rh-">B(III) Rh-</mat-option>
+                                    <mat-option value="AB(IV) Rh+">AB(IV) Rh+</mat-option>
+                                    <mat-option value="AB(IV) Rh-">AB(IV) Rh-</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="medicalData.get('bloodType')?.hasError('required')">
+                                    Заповніть це поле
+                                </mat-error>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button matStepperPrevious>Назад</button>
+                                <button mat-button matStepperNext (click)="register()" [disabled]="medicalData.invalid">
+                                    Зареєструватися
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                </mat-stepper>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+.my-width{
+    width: 460px;
+}
+
+::ng-deep .mat-stepper-vertical{
+    background: transparent !important;
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+form{
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+::ng-deep .mat-step{
+    padding: 1px 0;
+}
+
+::ng-deep .mat-step-icon-selected{
+    background-color: var(--crystal-blue-color) !important;
+}
+
+::ng-deep .mat-step-icon-state-edit{
+    background-color: var(--crystal-blue-color) !important;
+}
