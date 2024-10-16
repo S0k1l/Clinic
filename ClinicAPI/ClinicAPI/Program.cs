@@ -22,8 +22,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
-.AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 var JWTSetting = builder.Configuration.GetSection("JWTSetting");
 
@@ -77,6 +78,11 @@ builder.Services.AddSwaggerGen(c => {
 
 
 var app = builder.Build();
+
+if (args.Length == 1 && args[0].ToLower() == "seeddata")
+{
+    await Seed.SeedData(app);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
