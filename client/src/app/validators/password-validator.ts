@@ -1,20 +1,21 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
-export function passwordValidator (control: AbstractControl): ValidationErrors | null {
-    const password = control.value;
+export function passwordValidator(control: AbstractControl): ValidationErrors | null {
+  const password = control.value;
 
-    const hasUppercase = /[A-Z]/.test(password);
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
 
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    if (!hasUppercase || !hasSpecialChar) {
+  if (!hasUppercase || !hasSpecialChar || !hasNumber) {
       return {
-        uppercase: !hasUppercase,
-        specialChar: !hasSpecialChar
+          uppercase: !hasUppercase,
+          specialChar: !hasSpecialChar,
+          number: !hasNumber 
       };
-    }
-    
-    return null;
+  }
+
+  return null;
 }
 
 export function confirmPasswordValidator(control: AbstractControl): ValidationErrors | null {
