@@ -33,7 +33,7 @@ namespace ClinicAPI.Controllers
 
             var user = await _userManager.FindByEmailAsync(registerDto.Email);
 
-            if (user != null) { return BadRequest("User already exist"); }
+            if (user != null) { return BadRequest("Користувач з такою поштою вже існує"); }
 
             var patient = new Patient
             {
@@ -59,7 +59,7 @@ namespace ClinicAPI.Controllers
             return Ok(new AuthResponseDto
             {
                 IsSuccess = true,
-                Message = "Account Created Sucessfully!"
+                Message = "Обліковий запис успішно створено!"
             });
         }
 
@@ -101,7 +101,7 @@ namespace ClinicAPI.Controllers
             {
                 Token = token,
                 IsSuccess = true,
-                Message = "Успішний вхід.",
+                Message = "Успішний вхід",
                 RefreshToken = refreshToken
             });
         }
@@ -124,7 +124,7 @@ namespace ClinicAPI.Controllers
                 return BadRequest(new AuthResponseDto
                 {
                     IsSuccess = false,
-                    Message = "Недійсний запит клієнта."
+                    Message = "Недійсний запит клієнта"
                 });
             }
 
@@ -142,7 +142,7 @@ namespace ClinicAPI.Controllers
                 IsSuccess = true,
                 Token = newJwtToken,
                 RefreshToken = newRefreshToken,
-                Message = "Токен успішно оновлено."
+                Message = "Токен успішно оновлено"
             });
         }
 
