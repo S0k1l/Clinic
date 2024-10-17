@@ -1,3 +1,7 @@
 a{
     color: var(--crystal-blue-color);
 }
+
+::ng-deep .mat-mdc-unelevated-button:not(:disabled){
+    background-color: var(--crystal-blue-color);
+}

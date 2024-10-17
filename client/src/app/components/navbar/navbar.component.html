@@ -2,12 +2,28 @@
 <mat-toolbar>
     <a routerLink="/" class="font-light font-sans">Clinic</a>
     <div class="w-full"></div>
-    <div class="flex gap-2">
-        <a mat-button routerLink="/login">
-            Вхід
-        </a>
-        <a mat-button routerLink="/register">
-            Реєстрація
-        </a>
-    </div>
+    @if (isLoggedIn()) {
+        <div *ngIf="authService.getUserDetail() as userDetail" class="flex gap-2 text-center">
+            <a mat-button >
+                <mat-icon>person</mat-icon>    
+                {{userDetail.fullName}}
+            </a>
+            <a mat-button (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                Вийти
+            </a>
+        </div>
+    }
+    @else {
+        <div class="flex gap-2">
+            <a mat-button routerLink="/login">
+                <mat-icon>login</mat-icon>
+                Вхід
+            </a>
+            <a mat-button routerLink="/register">
+                <mat-icon>app_registration</mat-icon>
+                Реєстрація
+            </a>
+        </div>
+    }
 </mat-toolbar>

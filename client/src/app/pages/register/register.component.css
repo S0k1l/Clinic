@@ -1,5 +1,5 @@
 .my-width{
-    width: 460px;
+    width: 500px;
 }
 
 ::ng-deep .mat-stepper-vertical{
@@ -27,4 +27,17 @@ form{
 
 ::ng-deep .mat-step-icon-state-edit{
     background-color: var(--crystal-blue-color) !important;
+}
+
+a{
+    color: var(--crystal-blue-color);
+}
+
+mat-error{
+    text-wrap: nowrap;
+}
+
+::ng-deep .register-button.mat-mdc-button:not(:disabled){
+    background-color: var(--crystal-blue-color) !important;
+    color: white !important;
 }
