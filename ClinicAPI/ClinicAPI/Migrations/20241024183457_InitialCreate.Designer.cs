@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241015155742_InitialCreate")]
+    [Migration("20241024183457_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -124,8 +124,8 @@ namespace ClinicAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("AppointmentDateId")
+                        .HasColumnType("int");
 
                     b.Property<string>("DoctorId")
                         .IsRequired()
@@ -137,11 +137,42 @@ namespace ClinicAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppointmentDateId")
+                        .IsUnique()
+                        .HasFilter("[AppointmentDateId] IS NOT NULL");
+
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
 
                     b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("ClinicAPI.Models.AppointmentDate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WorkScheduleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkScheduleId");
+
+                    b.ToTable("AppointmentDate");
                 });
 
             modelBuilder.Entity("ClinicAPI.Models.MedicalRecord", b =>
@@ -223,6 +254,28 @@ namespace ClinicAPI.Migrations
                     b.HasIndex("MedicalRecordsId");
 
                     b.ToTable("Treatments");
+                });
+
+            modelBuilder.Entity("ClinicAPI.Models.WorkSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("WorkSchedules");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -369,6 +422,10 @@ namespace ClinicAPI.Migrations
                     b.Property<DateTime>("EmployedSince")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImgUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Room")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -393,6 +450,10 @@ namespace ClinicAPI.Migrations
 
             modelBuilder.Entity("ClinicAPI.Models.Appointment", b =>
                 {
+                    b.HasOne("ClinicAPI.Models.AppointmentDate", "AppointmentDate")
+                        .WithOne("Appointment")
+                        .HasForeignKey("ClinicAPI.Models.Appointment", "AppointmentDateId");
+
                     b.HasOne("ClinicAPI.Models.Doctor", "Doctor")
                         .WithMany("Appointments")
                         .HasForeignKey("DoctorId")
@@ -405,9 +466,22 @@ namespace ClinicAPI.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("AppointmentDate");
+
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("ClinicAPI.Models.AppointmentDate", b =>
+                {
+                    b.HasOne("ClinicAPI.Models.WorkSchedule", "WorkSchedule")
+                        .WithMany("WorkingHours")
+                        .HasForeignKey("WorkScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WorkSchedule");
                 });
 
             modelBuilder.Entity("ClinicAPI.Models.MedicalRecord", b =>
@@ -438,6 +512,17 @@ namespace ClinicAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("MedicalRecords");
+                });
+
+            modelBuilder.Entity("ClinicAPI.Models.WorkSchedule", b =>
+                {
+                    b.HasOne("ClinicAPI.Models.Doctor", "Doctor")
+                        .WithMany("WorkSchedules")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -517,6 +602,11 @@ namespace ClinicAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ClinicAPI.Models.AppointmentDate", b =>
+                {
+                    b.Navigation("Appointment");
+                });
+
             modelBuilder.Entity("ClinicAPI.Models.MedicalRecord", b =>
                 {
                     b.Navigation("Treatments");
@@ -527,11 +617,18 @@ namespace ClinicAPI.Migrations
                     b.Navigation("Doctors");
                 });
 
+            modelBuilder.Entity("ClinicAPI.Models.WorkSchedule", b =>
+                {
+                    b.Navigation("WorkingHours");
+                });
+
             modelBuilder.Entity("ClinicAPI.Models.Doctor", b =>
                 {
                     b.Navigation("Appointments");
 
                     b.Navigation("MedicalRecords");
+
+                    b.Navigation("WorkSchedules");
                 });
 
             modelBuilder.Entity("ClinicAPI.Models.Patient", b =>

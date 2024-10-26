@@ -10,6 +10,7 @@ namespace ClinicAPI.Models
         public Doctor Doctor { get; set; }
         public string PatientId { get; set; }
         public Patient Patient { get; set; }
-        public DateTime Date { get; set; }
+        public int? AppointmentDateId { get; set; }
+        public AppointmentDate? AppointmentDate { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ClinicAPI.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 using System.Reflection.Emit;
 using System.Reflection.Metadata;
 
@@ -12,16 +13,17 @@ namespace ClinicAPI.Data
         {
         }
 
-        DbSet<Appointment> Appointments { get; set; }
-        DbSet<Doctor> Doctors { get; set; }
-        DbSet<MedicalRecord> MedicalRecords { get; set; }
-        DbSet<Patient> Patients { get; set; }
-        DbSet<Specialty> Specialtys { get; set; }
-        DbSet<Treatment> Treatments { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<MedicalRecord> MedicalRecords { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Specialty> Specialtys { get; set; }
+        public DbSet<Treatment> Treatments { get; set; }
+        public DbSet<WorkSchedule> WorkSchedules { get; set; }
+        public DbSet<AppointmentDate> AppointmentDate { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
 
             builder.Entity<Appointment>()
                 .HasOne(a => a.Doctor)
@@ -47,8 +49,16 @@ namespace ClinicAPI.Data
                 .HasForeignKey(m => m.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<AppointmentDate>()
+                .HasOne(ad => ad.Appointment)
+                .WithOne(a => a.AppointmentDate)
+                .HasForeignKey<Appointment>(a => a.AppointmentDateId);
+
             builder.Entity<Doctor>().ToTable("Doctors");
             builder.Entity<Patient>().ToTable("Patients");
+
+            base.OnModelCreating(builder);
+
         }
     }
 }

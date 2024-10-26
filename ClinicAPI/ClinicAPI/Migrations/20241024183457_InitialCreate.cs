@@ -199,6 +199,7 @@ namespace ClinicAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SpecialtyId = table.Column<int>(type: "int", nullable: false),
                     Room = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Education = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -219,33 +220,6 @@ namespace ClinicAPI.Migrations
                         principalTable: "Specialtys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Appointments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Doctors_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -277,6 +251,26 @@ namespace ClinicAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WorkSchedules",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkSchedules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkSchedules_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Treatments",
                 columns: table => new
                 {
@@ -298,6 +292,72 @@ namespace ClinicAPI.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "AppointmentDate",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WorkScheduleId = table.Column<int>(type: "int", nullable: false),
+                    Start = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    End = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AppointmentId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentDate", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppointmentDate_WorkSchedules_WorkScheduleId",
+                        column: x => x.WorkScheduleId,
+                        principalTable: "WorkSchedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppointmentDateId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_AppointmentDate_AppointmentDateId",
+                        column: x => x.AppointmentDateId,
+                        principalTable: "AppointmentDate",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Appointments_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppointmentDate_WorkScheduleId",
+                table: "AppointmentDate",
+                column: "WorkScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_AppointmentDateId",
+                table: "Appointments",
+                column: "AppointmentDateId",
+                unique: true,
+                filter: "[AppointmentDateId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_DoctorId",
@@ -367,6 +427,11 @@ namespace ClinicAPI.Migrations
                 name: "IX_Treatments_MedicalRecordsId",
                 table: "Treatments",
                 column: "MedicalRecordsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkSchedules_DoctorId",
+                table: "WorkSchedules",
+                column: "DoctorId");
         }
 
         /// <inheritdoc />
@@ -394,22 +459,28 @@ namespace ClinicAPI.Migrations
                 name: "Treatments");
 
             migrationBuilder.DropTable(
+                name: "AppointmentDate");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "MedicalRecords");
 
             migrationBuilder.DropTable(
-                name: "Doctors");
+                name: "WorkSchedules");
 
             migrationBuilder.DropTable(
                 name: "Patients");
 
             migrationBuilder.DropTable(
-                name: "Specialtys");
+                name: "Doctors");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Specialtys");
         }
     }
 }
