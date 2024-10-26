@@ -1,40 +1,57 @@
 <div class="h-full flex justify-center">
-    <div class="h-full w-4/5 flex items-center gap-10 py-12 flex-col">
+    <div class="h-full w-4/5 flex items-center gap-10 py-12 flex-col" style="min-width: 1080px; max-width: 1200px;">
         <div class="">
             <span class="text-2xl font-light">ПОШУК ЛІКАРІВ</span>
         </div>
         <div class="w-full flex flex-col gap-10 items-center justify-center">
-            <div class="bg-gray-300 p-5 w-fit text-base rounded-xl flex flex-wrap gap-5" >
+            <form class="bg-slate-200 p-5 w-fit text-base rounded-xl flex flex-wrap gap-5" [formGroup]="filter" >
                 <mat-form-field class="my-form-field w-96">
-                    <input class="my-input" matInput placeholder="Введіть ПІБ лікаря">
-                    <button mat-icon-button matSuffix class="my-button">
-                        <mat-icon>search</mat-icon>
-                    </button>
+                    <input class="my-input" matInput placeholder="Введіть ПІБ лікаря" #qwe formControlName="doctorName">
+                    <div matSuffix class="flex flex-row gap-1">
+                        <button mat-icon-button (click)="clearDoctorName()" *ngIf="!isDoctorNameEmpty()" 
+                            @fadeInOut disableRipple>
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="search()" class="my-button">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </div>
+
                 </mat-form-field>
                 <mat-form-field class="my-form-field">
-                    <mat-select [(value)]="selected">
-                        <mat-option class="my-option" value="all">all</mat-option>
-                        <mat-option value="food.value">food.viewValue</mat-option>
+                    <mat-select [(value)]="selected" (selectionChange)="search()" formControlName="specialtyId">
+                        <mat-option  class="my-option" [value]="0">Всі</mat-option>
+                        <mat-option class="my-option" *ngFor="let item of specialty | async" [value]="item.id">{{item.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-            </div>
-            <div class="w-full  grid grid-cols-3 gap-4">
-                @for (item of doctors; track $index) {
-                    <div class="bg-white rounded-xl flex flex-row gap-5  h-full p-5 my-border">
-                        <div class="h-full w-2/5 flex items-center">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Valeriy_Konovalyuk_3x4.jpg" class="h-fit rounded-lg" alt="">
-                        </div>
-                        <div class="flex flex-col w-3/5 gap-2 text-slate-700">
-                            <a routerLink="/doctor/1"><span class="text-lg font-medium">Боржієвський Олександр Анатолійович</span></a>
-                            <span><i>Сімейний лікар</i></span>
-                            <div class="h-full"></div>
-                            <div class="w-full flex justify-center pb-3">
-                                <button mat-flat-button class="w-fit">Записятися</button>
+            </form>
+            @if (!doctors || doctors.length <= 0 ) {
+                <div class="">
+                    <span class="text-2xl font-light uppercase">Лікаря не знайдено</span>
+                </div>
+            }
+            @else {
+                <div class="w-full  grid grid-cols-3 gap-4">   
+                    @for (item of doctors; track item.id) {
+                        <div class="bg-white rounded-xl flex flex-col gap-5  h-full p-5 my-border">
+                            <div class="flex flex-row gap-5 h-full">
+                                <div class="h-full w-2/5 flex items-center">
+                                    <img [src]="item.imgUrl" loading="lazy" class="h-fit rounded-lg" alt="">
+                                </div>
+                                <div class="flex flex-col w-3/5 gap-2 text-slate-700">
+                                    <a [routerLink]="['/doctor',item.id]"><span class="text-lg font-medium">{{item.fullName}}</span></a>
+                                    <span>{{item.specialtyName}}</span>
+                                    <div class="h-full"></div>
+                                    <div class="w-full flex justify-center pb-3">
+                                        <button [routerLink]="['/doctor', item.id,'appointments']" mat-flat-button class="w-full !rounded-lg">Записятися</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
+            }
+            
         </div>
     </div>
 </div>
